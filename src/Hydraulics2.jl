@@ -15,7 +15,7 @@
 # we will have utility functions for increasing or decreasing the NPS by 1. 
 
 
-module Hydraulics
+module Hydraulics2
 
 using DataFrames
 using CSV
@@ -684,10 +684,10 @@ function getElementK(prelim, fittingList)
         theSegment = fittingList[i,:Segment]
 
         # first we get all of the K values
-        valK1 = Hydraulics.fitting3K[Hydraulics.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:K1][1]
-        valKinf = Hydraulics.fitting3K[Hydraulics.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kinf][1]
-        valKd = Hydraulics.fitting3K[Hydraulics.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kd][1]
-        valKp = Hydraulics.fitting3K[Hydraulics.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kp][1]
+        valK1 = Hydraulics2.fitting3K[Hydraulics2.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:K1][1]
+        valKinf = Hydraulics2.fitting3K[Hydraulics2.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kinf][1]
+        valKd = Hydraulics2.fitting3K[Hydraulics2.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kd][1]
+        valKp = Hydraulics2.fitting3K[Hydraulics2.fitting3K[:,:fittingType] .== fittingList[i,:fittingType],:Kp][1]
 
         # now we get the hydraulic properties
         ff = prelim[prelim[:,:Segment] .== fittingList[i,:Segment],:frictF][1]
@@ -791,7 +791,7 @@ function extractResults(gBx, lines, connectivity, nodeList, fittingList)
     columnsInSegment = getColumnsInSegment(numLines,numNodes)
     globalColumn = variableMapping(numLines, numNodes, columnsInSegment)
 
-    ourDetails = (Hydraulics.getReynolds(lines))
+    ourDetails = (Hydraulics2.getReynolds(lines))
 	# note that fittingList is a really long vector with every fitting
     ourElementK = getElementK(ourDetails, fittingList)
     Km = getResistanceMatrix(ourDetails, ourElementK, connectivity)  # this is an actual matrix
@@ -1144,7 +1144,7 @@ function doNetworkHydraulics(lineHydraulics, fluidList, connectivity, dofList, n
         end
 
         # then I need to update the hydraulic parameters
-        hydraulicParameters = Hydraulics.getReynolds(lineHydraulics)
+        hydraulicParameters = Hydraulics2.getReynolds(lineHydraulics)
         # and I need to update the pressures and DP estimates
 
         gBx = testSoln
@@ -1159,7 +1159,7 @@ function combineResults(dfAllResults, dfLines)
     # dfLines has the pressur drop hydraulic info
     # do an innerjoin to produce a single table
 
-    hydraulicDetails = (Hydraulics.getReynolds(dfLines));
+    hydraulicDetails = (Hydraulics2.getReynolds(dfLines));
     combined1=outerjoin(dfAllResults, hydraulicDetails, on = intersect(names(dfAllResults), names(hydraulicDetails)), makeunique=false,indicator=nothing,validate=(false,false));
     combined2=outerjoin(combined1, dfLines, on = intersect(names(combined1), names(dfLines)), makeunique=false,indicator=nothing,validate=(false,false));
 
