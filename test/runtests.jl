@@ -1,5 +1,5 @@
 # code for testing our package
-using Hydraulics, Test
+using Hydraulics2, Test
 
 @testset "moody" begin
     # test case moody
@@ -7,5 +7,5 @@ using Hydraulics, Test
 	# Reynolds number 306900, e = 0.068 mm, D = 102.3
 	eD = 0.068 / 102.3
 	Reynolds = 306900.0
-    	@test (abs(Hydraulics.calcMoodyF(Reynolds,eD) - 0.018) < 0.001)
+    	@test (abs(Hydraulics2.calcMoodyF(Reynolds,eD) - 0.018) < 0.001)
 end
