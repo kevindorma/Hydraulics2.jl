@@ -23,7 +23,7 @@ The code is written in Julia. The code is intended to be used in a Jupyter Noteb
 
 The following lines of code are needed in a Jupyter Notebook (Julia shell) to pull the package from GitHub and use the package.
 ~~~~
-Pkg.add(PackageSpec(url="https://github.com/kevindorma/Hydraulics.jl")
+Pkg.add(PackageSpec(url="https://github.com/kevindorma/Hydraulics2.jl")
 using Hydraulics
 ~~~~
 
